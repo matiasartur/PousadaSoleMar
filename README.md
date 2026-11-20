@@ -91,7 +91,7 @@ Para iniciar o sistema sem os dados anteriores, basta excluir o arquivo `hotel.d
 
 O diagrama de classes apresenta a estrutura do projeto, suas classes, atributos, métodos e relacionamentos, incluindo a herança entre `Quarto` e `QuartoLuxo`.
 
-![Diagrama de Classes](docs/diagrama_de_classes.png)
+![Diagrama de Classes](<img width="2220" height="1575" alt="diagrama_de_classes" src="https://github.com/user-attachments/assets/a02b1967-7266-45e2-ab94-df561e89445b" />)
 
 ## Gerenciamento do projeto
 
