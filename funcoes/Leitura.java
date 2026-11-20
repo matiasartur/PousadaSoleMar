@@ -8,6 +8,14 @@ import java.time.format.DateTimeParseException;
 
 public class Leitura {
 
+
+
+    public static String lerString(String mensagem) {
+        System.out.print(mensagem);
+        String i = scanner.nextLine();
+        return i;
+    }
+
 //                          RESERVA
 
     public static LocalDate lerData(String mensagem) {

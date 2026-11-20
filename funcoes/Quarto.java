@@ -9,6 +9,7 @@ public class Quarto {
     private int numero;
     private int capacidade;
     private double valorDiaria;
+    private Reserva reserva;
 
     public Quarto(int numero, int capacidade, double valorDiaria) {
         this.numero = numero;
@@ -26,6 +27,10 @@ public class Quarto {
 
     public double getValorDiaria() {
         return valorDiaria;
+    }
+
+    public Reserva getReserva() {
+        return reserva;
     }
 
 

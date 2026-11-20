@@ -48,7 +48,7 @@ public class Main {
                     hotel.listarQuartos();
                     break;
                 case 5:
-                    hotel.consultarQuarto();
+                    hotel.consultarQuartos();
                     break;
                 case 0:
                     System.out.println("\nSaindo do programa...\n");

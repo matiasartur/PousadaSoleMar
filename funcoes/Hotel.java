@@ -188,10 +188,54 @@ public class Hotel {
 
     // =========================================================================
 
-    public void consultarQuarto() {
+    public void consultarQuartos() {
+
+        System.out.println("\n--- Consultar Quarto ---");
+
+        int quartoNumero = Leitura.lerInteiro("\nDigite o número do quarto que deseja consultar: ", 1);
+
+        for (Quarto quarto : quartos) {
+            if (quarto.getNumero() == quartoNumero) {
+                System.out.println(quarto);
+                boolean encontrouReserva = false;
+
+                for (Reserva reserva : reservas) {
+                    if (reserva.getQuarto().equals(quarto)) {
+                        reserva.toString();
+                        encontrouReserva = true;
+                        System.out.println(reserva.toString());
+                        break;
+                    }
+                }
+
+                if (!encontrouReserva) {
+                    System.out.println("  Sem reservas cadastradas.");
+                }
+                return;
+            }
+            return;
+        }
+
+
+
     }
 
     public void cancelarReserva() {
+
+        System.out.println("\n--- Cancelar Reserva ---");
+
+        String codigoReserva = Leitura.lerString("Digite o código da reserva: ");
+
+        for (int i = 0; i < reservas.size(); i++) {
+            if (reservas.get(i).getCodigoReserva().equals(codigoReserva)) {
+                reservas.remove(i);
+                System.out.println("Reserva cancelada com sucesso!");
+                return;
+            }
+        }
+
+        System.out.println("Reserva não encontrada!");
+
     }
 
     // Uso obrigatório do equals e toString
@@ -224,3 +268,5 @@ public class Hotel {
                 + " | Reservas: " + reservas.size();
     }
 }
+
+    
