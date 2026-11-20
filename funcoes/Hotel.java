@@ -76,7 +76,8 @@ public class Hotel {
                     System.out.println("  Reservado de "
                             + reserva.getDataEntrada().format(formato)
                             + " até "
-                            + reserva.getDataSaida().format(formato));
+                            + reserva.getDataSaida().format(formato) + 
+                            "  |  Código da reserva: " + reserva.getCodigoReserva());
                 }
             }
 
