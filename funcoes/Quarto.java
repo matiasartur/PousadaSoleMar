@@ -1,15 +1,19 @@
 package funcoes;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Quarto {
-    // cadastro de quarto
-    // ===================================================================
+/**
+ * Representa um quarto comum do hotel
+ * Guarda o número, a capacidade de pessoas e o valor da diária
+ * A classe QuartoLuxo herda dessa
+ */
+
+public class Quarto implements Serializable {
 
     private int numero;
     private int capacidade;
     private double valorDiaria;
-    private Reserva reserva;
 
     public Quarto(int numero, int capacidade, double valorDiaria) {
         this.numero = numero;
@@ -29,23 +33,6 @@ public class Quarto {
         return valorDiaria;
     }
 
-    public Reserva getReserva() {
-        return reserva;
-    }
-
-    // listar quartos
-    // ===================================================================
-
-    private boolean disponivel = true;
-
-    public boolean isDisponivel() {
-        return disponivel;
-    }
-
-    public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel;
-    }
-
     @Override
     public String toString() {
         return "--------------------------------------\n" +
@@ -62,7 +49,7 @@ public class Quarto {
             return true;
         }
 
-        if (obj == null || getClass() != obj.getClass()) {
+        if (!(obj instanceof Quarto)) {
             return false;
         }
 

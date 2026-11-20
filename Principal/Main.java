@@ -1,10 +1,14 @@
 package principal;
 
+import arquivo.Arquivo;
 import funcoes.Leitura;
 import funcoes.Hotel;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+/**
+ * Classe principal: mostra o menu e chama a função escolhida pelo usuário.
+ */
 
 public class Main {
 
@@ -16,7 +20,7 @@ public class Main {
 
         System.out.println(hoje.format(formatoData));
 
-        Hotel hotel = new Hotel("Pousada do Sol e Mar");
+        Hotel hotel = Arquivo.carregarHotel("Pousada do Sol e Mar");
         int opcao;
 
         do {
@@ -60,6 +64,8 @@ public class Main {
                 default:
                     System.out.println("\nOpção inválida. Tente novamente.\n");
             }
+
+            Arquivo.salvarHotel(hotel);
 
         } while (opcao != 0);
 

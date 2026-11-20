@@ -1,12 +1,18 @@
-
 package funcoes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Random;
 
-public class Reserva {
+/**
+ * Representa uma reserva: liga um quarto a um período (entrada e saída)
+ * e ao CPF do cliente. O código de reserva de 6 dígitos é gerado
+ * automaticamente.
+ */
+
+public class Reserva implements Serializable {
 
     private Quarto quarto;
     private LocalDate dataEntrada;

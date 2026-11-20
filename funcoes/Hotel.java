@@ -1,5 +1,6 @@
 package funcoes;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import arquivo.Arquivo;
 import java.util.List;
@@ -8,7 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Hotel {
+/**
+ * guarda a lista de quartos e a lista de reservas do hotel
+ * e executa as funções do menu (cadastrar, reservar, cancelar, listar e
+ * consultar).
+ */
+
+public class Hotel implements Serializable {
 
     private String nome;
     private List<Quarto> quartos;
@@ -20,9 +27,7 @@ public class Hotel {
         this.reservas = new ArrayList<>();
     }
 
-    // cadastra luxo
-    // ===================================================================
-
+    // cadastra luxo, recusando números que já existem
     public void cadastrarQuartoLuxo() {
 
         System.out.println("\n--- Cadastrar Quarto ---");
@@ -44,9 +49,7 @@ public class Hotel {
         System.out.println(novoQuarto);
     }
 
-    // Cadastro de Quarto
-    // ===================================================================
-
+    // cadastro de quarto recusando números que já existem
     public void cadastrarQuarto() {
 
         System.out.println("\n--- Cadastrar Quarto ---");
@@ -67,9 +70,7 @@ public class Hotel {
         System.out.println(novoQuarto);
     }
 
-    // Listar Quartos
-    // ====================================================================
-
+    // mostra todos os quartos com as suas reservas (ou "sem reservas")
     public void listarQuartos() {
 
         System.out.println("\n--- Lista de Quartos ---");
@@ -113,9 +114,10 @@ public class Hotel {
         }
     }
 
-    // Fazer Reserva
-    // ====================================================================
-
+    /**
+     * pede CPF, quarto e datas, confere se o período é válido e se o quarto
+     * está livre, gera o código da reserva e grava o registro no arquivo
+     */
     public void fazerReserva() {
 
         System.out.println("\n--- Fazer Reserva ---");
@@ -187,6 +189,7 @@ public class Hotel {
 
         reservas.add(novaReserva);
 
+        // salva em arquivo txt a reserva, já formatada
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         DateTimeFormatter formatoDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -213,7 +216,8 @@ public class Hotel {
         System.out.println("==================================");
     }
 
-    // =========================================================================
+    // Mostra os dados de um quarto e todas as reservas dele, usando o número do
+    // quarto
 
     public void consultarQuartos() {
 
@@ -221,28 +225,37 @@ public class Hotel {
 
         int quartoNumero = Leitura.lerInteiro("\nDigite o número do quarto que deseja consultar: ", 1);
 
+        Quarto quartoEncontrado = null;
+
         for (Quarto quarto : quartos) {
             if (quarto.getNumero() == quartoNumero) {
-                System.out.println(quarto);
-                boolean encontrouReserva = false;
-
-                for (Reserva reserva : reservas) {
-                    if (reserva.getQuarto().equals(quarto)) {
-                        reserva.toString();
-                        encontrouReserva = true;
-                        System.out.println(reserva.toString());
-                        break;
-                    }
-                }
-
-                if (!encontrouReserva) {
-                    System.out.println("  Sem reservas cadastradas.");
-                }
-                return;
+                quartoEncontrado = quarto;
+                break;
             }
         }
 
+        if (quartoEncontrado == null) {
+            System.out.println("Quarto não encontrado!");
+            return;
+        }
+
+        System.out.println(quartoEncontrado);
+
+        boolean encontrouReserva = false;
+
+        for (Reserva reserva : reservas) {
+            if (reserva.getQuarto().equals(quartoEncontrado)) {
+                encontrouReserva = true;
+                System.out.println("\n" + reserva);
+            }
+        }
+
+        if (!encontrouReserva) {
+            System.out.println("  Sem reservas cadastradas.");
+        }
     }
+
+    // Apaga uma reserva da lista através do código de reserva
 
     public void cancelarReserva() {
 

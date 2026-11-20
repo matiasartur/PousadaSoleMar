@@ -6,6 +6,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Lê os dados digitados no teclado e testa cada entrada.
+ * Se o usuário digitar algo inválido, a pergunta é repetida
+ * e o programa não quebra.
+ */
+
 public class Leitura {
 
     public static String lerString(String mensagem) {
@@ -14,7 +20,7 @@ public class Leitura {
         return i;
     }
 
-    // RESERVA
+    // FORMATAÇÃO DATA
 
     public static LocalDate lerData(String mensagem) {
 
@@ -33,7 +39,7 @@ public class Leitura {
         }
     }
 
-    // conferir se o CPF digitado pelo usuário é válido
+    // FORMATAÇÃO CPF
     public static String lerCPF(String mensagem) {
 
         while (true) {
@@ -95,6 +101,7 @@ public class Leitura {
         }
     }
 
+    // CONFERIR ENTRADA QUARTO DE LUXO (S == TRUE E N == FALSE)
     public static boolean lerBoolean(String mensagem) {
 
         while (true) {
