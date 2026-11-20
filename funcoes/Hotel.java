@@ -91,6 +91,7 @@ public class Hotel {
 
         System.out.println("\n--- Fazer Reserva ---");
 
+        String cpfCliente = Leitura.lerCPF("CPF do cliente: ");
         int numero = Leitura.lerInteiro("Número do quarto: ", 1);
 
         Quarto quartoEncontrado = null;
@@ -135,7 +136,7 @@ public class Hotel {
                 }
             }
         }
-        Reserva novaReserva = new Reserva(quartoEncontrado, entrada, saida);
+        Reserva novaReserva = new Reserva(quartoEncontrado, entrada, saida, cpfCliente);
 
         reservas.add(novaReserva);
 
@@ -147,7 +148,9 @@ public class Hotel {
                 "       POUSADA DO SOL E MAR\n" +
                 "          REGISTRO DE RESERVA\n" +
                 "========================================\n\n" +
-                "Quarto: " + quartoEncontrado.getNumero() + "\n\n" +
+                "CPF do cliente: " + cpfCliente + "\n" +
+                "Código da reserva: " + novaReserva.getCodigoReserva() + "\n" +
+                "Quarto: " + quartoEncontrado.getNumero() + "\n" +
                 "Data de entrada: " + entrada.format(formato) + "\n" +
                 "Data de saída:   " + saida.format(formato) + "\n" +
                 "Reserva realizada em: " +
@@ -156,7 +159,10 @@ public class Hotel {
 
         Arquivo.salvar(dados);
 
-        System.out.println("Reserva realizada com sucesso!");
+        System.out.println("\nReserva realizada com sucesso!");
+        System.out.println("==================================");
+        System.out.println("CÓDIGO DA RESERVA: " + novaReserva.getCodigoReserva());
+        System.out.println("==================================");
     }
 
     // =========================================================================
@@ -168,7 +174,7 @@ public class Hotel {
     }
 
     // uso obrigatório do equals e toString
-    // comparar hotéis pelo nome -- desnecessário, mas bom para aprendizado
+    // comparar hotéis pelo nome -- desnecessário
 
     @Override
     public boolean equals(Object obj) {

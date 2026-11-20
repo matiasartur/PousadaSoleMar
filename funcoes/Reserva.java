@@ -1,19 +1,31 @@
+
 package funcoes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.Random;
 
 public class Reserva {
 
     private Quarto quarto;
     private LocalDate dataEntrada;
     private LocalDate dataSaida;
+    private String cpfCliente;
+    private String codigoReserva;
 
-    public Reserva(Quarto quarto, LocalDate dataEntrada, LocalDate dataSaida) {
+    public Reserva(Quarto quarto, LocalDate dataEntrada,
+                   LocalDate dataSaida, String cpfCliente) {
+
         this.quarto = quarto;
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
+        this.cpfCliente = cpfCliente;
+
+        // Gera um código aleatório de 6 dígitos
+        Random random = new Random();
+        this.codigoReserva = String.format("%06d",
+                random.nextInt(1000000));
     }
 
     public Quarto getQuarto() {
@@ -28,7 +40,13 @@ public class Reserva {
         return dataSaida;
     }
 
-    // compara data das reservas para ver se o quarto está disponível
+    public String getCpfCliente() {
+        return cpfCliente;
+    }
+
+    public String getCodigoReserva() {
+        return codigoReserva;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -38,7 +56,9 @@ public class Reserva {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
+
         Reserva outra = (Reserva) obj;
+
         return Objects.equals(quarto, outra.quarto)
                 && Objects.equals(dataEntrada, outra.dataEntrada)
                 && Objects.equals(dataSaida, outra.dataSaida);
@@ -49,13 +69,15 @@ public class Reserva {
         return Objects.hash(quarto, dataEntrada, dataSaida);
     }
 
-
-    // Printar informações da reserva em String
     @Override
     public String toString() {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return "Reserva do quarto " + quarto.getNumero() + " de "
-                + dataEntrada.format(formato) + " até "
-                + dataSaida.format(formato);
+        DateTimeFormatter formato =
+                DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return "Código da reserva: " + codigoReserva
+                + "\nCPF do cliente: " + cpfCliente
+                + "\nQuarto: " + quarto.getNumero()
+                + "\nData de entrada: " + dataEntrada.format(formato)
+                + "\nData de saída: " + dataSaida.format(formato);
     }
 }

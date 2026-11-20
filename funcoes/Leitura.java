@@ -27,6 +27,22 @@ public class Leitura {
     }
 }
 
+// conferir se o CPF digitado pelo usuário é válido
+    public static String lerCPF(String mensagem) {
+
+        while (true) {
+            System.out.print(mensagem);
+
+            String cpf = scanner.nextLine().replaceAll("[^0-9]", "");
+
+            if (cpf.matches("\\d{11}")) {
+                return cpf;
+            }
+
+            System.out.println("CPF inválido! Digite os 11 números do CPF.");
+        }
+    }
+
 //                  CONFERIR NUMERO DIGITADO PELO USUARIO
 
     private static Scanner scanner = new Scanner(System.in);
