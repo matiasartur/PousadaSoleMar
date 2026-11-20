@@ -73,7 +73,9 @@ public class Hotel {
 
                     encontrouReserva = true;
 
-                    System.out.println("  Reservado de " + reserva.getDataEntrada().format(formato) + " até "
+                    System.out.println("  Reservado de "
+                            + reserva.getDataEntrada().format(formato)
+                            + " até "
                             + reserva.getDataSaida().format(formato));
                 }
             }
@@ -97,13 +99,11 @@ public class Hotel {
         Quarto quartoEncontrado = null;
 
         for (int i = 0; i < quartos.size(); i++) {
-
             if (quartos.get(i).getNumero() == numero) {
                 quartoEncontrado = quartos.get(i);
                 break;
             }
         }
-
         if (quartoEncontrado == null) {
             System.out.println("Quarto não encontrado!");
             return;
@@ -116,7 +116,6 @@ public class Hotel {
             System.out.println("Não é possível fazer reservas no passado!");
             return;
         }
-
         if (!entrada.isBefore(saida)) {
             System.out.println("A data de saída deve ser posterior à entrada!");
             return;
@@ -127,6 +126,7 @@ public class Hotel {
             Reserva reservaExistente = reservas.get(i);
 
             if (reservaExistente.getQuarto().equals(quartoEncontrado)) {
+
                 boolean conflito = entrada.isBefore(reservaExistente.getDataSaida())
                         && saida.isAfter(reservaExistente.getDataEntrada());
 
@@ -136,7 +136,27 @@ public class Hotel {
                 }
             }
         }
-        Reserva novaReserva = new Reserva(quartoEncontrado, entrada, saida, cpfCliente);
+
+        // Gera um código e verifica se já existe
+        Reserva novaReserva;
+        boolean codigoRepetido;
+
+        do {
+            novaReserva = new Reserva(
+                    quartoEncontrado,
+                    entrada,
+                    saida,
+                    cpfCliente);
+            codigoRepetido = false;
+            for (Reserva reserva : reservas) {
+                if (reserva.getCodigoReserva().equals(
+                        novaReserva.getCodigoReserva())) {
+                    codigoRepetido = true;
+                    break;
+                }
+            }
+
+        } while (codigoRepetido);
 
         reservas.add(novaReserva);
 
@@ -152,7 +172,7 @@ public class Hotel {
                 "Código da reserva: " + novaReserva.getCodigoReserva() + "\n" +
                 "Quarto: " + quartoEncontrado.getNumero() + "\n" +
                 "Data de entrada: " + entrada.format(formato) + "\n" +
-                "Data de saída:   " + saida.format(formato) + "\n" +
+                "Data de saída: " + saida.format(formato) + "\n" +
                 "Reserva realizada em: " +
                 LocalDateTime.now().format(formatoDataHora) + "\n" +
                 "----------------------------------------";
@@ -173,18 +193,22 @@ public class Hotel {
     public void cancelarReserva() {
     }
 
-    // uso obrigatório do equals e toString
-    // comparar hotéis pelo nome -- desnecessário
+    // Uso obrigatório do equals e toString
+    // Comparar hotéis pelo nome
 
     @Override
     public boolean equals(Object obj) {
+
         if (this == obj) {
             return true;
         }
+
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
+
         Hotel outro = (Hotel) obj;
+
         return Objects.equals(nome, outro.nome);
     }
 
@@ -193,11 +217,9 @@ public class Hotel {
         return Objects.hash(nome);
     }
 
-      @Override
+    @Override
     public String toString() {
         return "Hotel " + nome + " | Quartos: " + quartos.size()
                 + " | Reservas: " + reservas.size();
     }
-
-
 }
