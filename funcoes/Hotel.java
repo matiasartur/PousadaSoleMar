@@ -6,10 +6,10 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Hotel {
 
-    @SuppressWarnings("unused")
     private String nome;
     private List<Quarto> quartos;
     private List<Reserva> reservas;
@@ -166,5 +166,32 @@ public class Hotel {
 
     public void cancelarReserva() {
     }
+
+    // uso obrigatório do equals e toString
+    // comparar hotéis pelo nome -- desnecessário, mas bom para aprendizado
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Hotel outro = (Hotel) obj;
+        return Objects.equals(nome, outro.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
+    }
+
+      @Override
+    public String toString() {
+        return "Hotel " + nome + " | Quartos: " + quartos.size()
+                + " | Reservas: " + reservas.size();
+    }
+
 
 }
