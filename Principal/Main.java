@@ -12,8 +12,7 @@ public class Main {
 
         LocalDateTime hoje = LocalDateTime.now();
 
-        DateTimeFormatter formatoData =
-                DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         System.out.println(hoje.format(formatoData));
 
@@ -36,7 +35,12 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    hotel.cadastrarQuarto();
+                    boolean luxo = Leitura.lerBoolean("Quarto de luxo? (S/N): ");
+                    if (luxo) {
+                        hotel.cadastrarQuartoLuxo();
+                    } else {
+                        hotel.cadastrarQuarto();
+                    }
                     break;
                 case 2:
                     hotel.fazerReserva();

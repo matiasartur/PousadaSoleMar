@@ -20,6 +20,30 @@ public class Hotel {
         this.reservas = new ArrayList<>();
     }
 
+    // cadastra luxo
+    // ===================================================================
+
+    public void cadastrarQuartoLuxo() {
+
+        System.out.println("\n--- Cadastrar Quarto ---");
+        int numero = Leitura.lerInteiro("Número do quarto: ", 1);
+        int capacidade = Leitura.lerInteiro("Capacidade do quarto: ", 1);
+        double valorDiaria = Leitura.lerDouble("Valor da diária: R$ ", 0.01);
+        int capacidadeJacuzzi = Leitura.lerInteiro("Capacidade da jacuzzi (pessoas): ", 1);
+
+        QuartoLuxo novoQuarto = new QuartoLuxo(numero, capacidade, valorDiaria, capacidadeJacuzzi);
+
+        if (quartos.contains(novoQuarto)) {
+            System.out.println("\nQuarto já cadastrado!");
+            return;
+        }
+
+        quartos.add(novoQuarto);
+
+        System.out.println("\nQuarto cadastrado com sucesso!");
+        System.out.println(novoQuarto);
+    }
+
     // Cadastro de Quarto
     // ===================================================================
 
@@ -76,13 +100,15 @@ public class Hotel {
                     System.out.println("  Reservado de "
                             + reserva.getDataEntrada().format(formato)
                             + " até "
-                            + reserva.getDataSaida().format(formato) + 
-                            "  |  Código da reserva: " + reserva.getCodigoReserva());
+                            + reserva.getDataSaida().format(formato) +
+                            "  |  Código da reserva: " + reserva.getCodigoReserva() +
+                            "\n--------------------------------------");
                 }
             }
 
             if (!encontrouReserva) {
-                System.out.println("  Sem reservas cadastradas.");
+                System.out.println("  Sem reservas cadastradas." +
+                        "\n--------------------------------------");
             }
         }
     }
@@ -170,8 +196,9 @@ public class Hotel {
                 "          REGISTRO DE RESERVA\n" +
                 "========================================\n\n" +
                 "CPF do cliente: " + cpfCliente + "\n" +
-                "Código da reserva: " + novaReserva.getCodigoReserva() + "\n" +
-                "Quarto: " + quartoEncontrado.getNumero() + "\n" +
+                "Código da reserva: " + novaReserva.getCodigoReserva() + "\n"
+                + (quartoEncontrado instanceof QuartoLuxo ? "Quarto Luxo: " : "Quarto: ") +
+                quartoEncontrado.getNumero() + "\n" +
                 "Data de entrada: " + entrada.format(formato) + "\n" +
                 "Data de saída: " + saida.format(formato) + "\n" +
                 "Reserva realizada em: " +
@@ -213,10 +240,7 @@ public class Hotel {
                 }
                 return;
             }
-            return;
         }
-
-
 
     }
 
@@ -268,5 +292,3 @@ public class Hotel {
                 + " | Reservas: " + reservas.size();
     }
 }
-
-    

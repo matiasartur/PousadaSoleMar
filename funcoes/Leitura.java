@@ -8,34 +8,32 @@ import java.time.format.DateTimeParseException;
 
 public class Leitura {
 
-
-
     public static String lerString(String mensagem) {
         System.out.print(mensagem);
         String i = scanner.nextLine();
         return i;
     }
 
-//                          RESERVA
+    // RESERVA
 
     public static LocalDate lerData(String mensagem) {
 
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/uuuu")
-            .withResolverStyle(ResolverStyle.STRICT);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+                .withResolverStyle(ResolverStyle.STRICT);
 
-    while (true) {
-        System.out.print(mensagem);
+        while (true) {
+            System.out.print(mensagem);
 
-        try {
-            return LocalDate.parse(scanner.nextLine(), formato);
+            try {
+                return LocalDate.parse(scanner.nextLine(), formato);
 
-        } catch (DateTimeParseException e) {
-            System.out.println("Data inválida! Use o formato dd/MM/aaaa (ex: 25/12/2030).");
+            } catch (DateTimeParseException e) {
+                System.out.println("Data inválida! Use o formato dd/MM/aaaa (ex: 25/12/2030).");
+            }
         }
     }
-}
 
-// conferir se o CPF digitado pelo usuário é válido
+    // conferir se o CPF digitado pelo usuário é válido
     public static String lerCPF(String mensagem) {
 
         while (true) {
@@ -51,7 +49,7 @@ public class Leitura {
         }
     }
 
-//                  CONFERIR NUMERO DIGITADO PELO USUARIO
+    // CONFERIR NUMERO DIGITADO PELO USUARIO
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -75,8 +73,7 @@ public class Leitura {
         }
     }
 
-
-    //                 CONFERIR VALOR DO QUARTO
+    // CONFERIR VALOR DO QUARTO
     public static double lerDouble(String mensagem, double minimo) {
 
         while (true) {
@@ -84,8 +81,7 @@ public class Leitura {
 
             try {
                 double numero = Double.parseDouble(
-                    scanner.nextLine().replace(",", ".")
-                );
+                        scanner.nextLine().replace(",", "."));
 
                 if (numero >= minimo) {
                     return numero;
@@ -95,6 +91,23 @@ public class Leitura {
 
             } catch (NumberFormatException e) {
                 System.out.println("Digite um valor decimal válido!");
+            }
+        }
+    }
+
+    public static boolean lerBoolean(String mensagem) {
+
+        while (true) {
+            System.out.print(mensagem);
+
+            String resposta = scanner.nextLine().trim().toUpperCase();
+
+            if (resposta.equals("S")) {
+                return true;
+            } else if (resposta.equals("N")) {
+                return false;
+            } else {
+                System.out.println("Resposta inválida! Digite S para Sim ou N para Não.");
             }
         }
     }

@@ -25,6 +25,7 @@ public class Arquivo {
             System.out.println("Erro ao salvar: " + e.getMessage());
         }
     }
+
     // MÉTODO PARA LER
     public static void ler() {
 

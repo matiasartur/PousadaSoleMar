@@ -15,7 +15,7 @@ public class Reserva {
     private String codigoReserva;
 
     public Reserva(Quarto quarto, LocalDate dataEntrada,
-                   LocalDate dataSaida, String cpfCliente) {
+            LocalDate dataSaida, String cpfCliente) {
 
         this.quarto = quarto;
         this.dataEntrada = dataEntrada;
@@ -71,12 +71,10 @@ public class Reserva {
 
     @Override
     public String toString() {
-        DateTimeFormatter formato =
-                DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         return "Código da reserva: " + codigoReserva
                 + "\nCPF do cliente: " + cpfCliente
-                + "\nQuarto: " + quarto.getNumero()
                 + "\nData de entrada: " + dataEntrada.format(formato)
                 + "\nData de saída: " + dataSaida.format(formato);
     }

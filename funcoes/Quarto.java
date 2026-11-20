@@ -3,7 +3,7 @@ package funcoes;
 import java.util.Objects;
 
 public class Quarto {
-    //                       cadastro de quarto
+    // cadastro de quarto
     // ===================================================================
 
     private int numero;
@@ -33,11 +33,9 @@ public class Quarto {
         return reserva;
     }
 
-
-
-    //                    listar quartos
+    // listar quartos
     // ===================================================================
-    
+
     private boolean disponivel = true;
 
     public boolean isDisponivel() {
@@ -47,16 +45,14 @@ public class Quarto {
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
     }
-    
-
 
     @Override
     public String toString() {
-        return "Quarto: " + numero +
-               " | Capacidade: " + capacidade + " pessoas" +
-               " | Diária: R$ " + String.format("%.2f", valorDiaria);
+        return "--------------------------------------\n" +
+                "Número do quarto: " + numero +
+                " | Capacidade: " + capacidade + " pessoas" +
+                " | Diária: R$ " + String.format("%.2f", valorDiaria);
     }
-
 
     // comparar quartos pelo número
     @Override
@@ -74,7 +70,6 @@ public class Quarto {
 
         return numero == outro.numero;
     }
-
 
     // gerar hashCode baseado no número do quarto
     @Override
