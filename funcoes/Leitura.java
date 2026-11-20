@@ -1,5 +1,6 @@
 package funcoes;
 
+import java.time.format.ResolverStyle;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +12,8 @@ public class Leitura {
 
     public static LocalDate lerData(String mensagem) {
 
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+            .withResolverStyle(ResolverStyle.STRICT);
 
     while (true) {
         System.out.print(mensagem);
@@ -20,7 +22,7 @@ public class Leitura {
             return LocalDate.parse(scanner.nextLine(), formato);
 
         } catch (DateTimeParseException e) {
-            System.out.println("Data inválida! Use o formato dd/MM/aaaa.");
+            System.out.println("Data inválida! Use o formato dd/MM/aaaa (ex: 25/12/2030).");
         }
     }
 }
