@@ -29,4 +29,19 @@ public class QuartoLuxo extends Quarto {
                 " | Capacidade: " + super.getCapacidade() + " pessoas" +
                 " | Diária: R$ " + String.format("%.2f", super.getValorDiaria());
     }
+
+    /**
+     * compara pelo número do quarto, igual à classe Quarto. Não compara a jacuzzi
+     * de propósito: um quarto comum e um de luxo com o mesmo número são o mesmo
+     * quarto, e é isso que impede cadastrar dois quartos com o mesmo número
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

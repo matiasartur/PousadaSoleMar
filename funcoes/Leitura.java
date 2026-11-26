@@ -138,4 +138,24 @@ public class Leitura {
     public static void fechar() {
         scanner.close();
     }
+
+    /*
+     * equals e toString exigidos pelo trabalho (requisito 5). Esta classe só tem
+     * métodos estáticos e não guarda dados próprios, então dois objetos Leitura
+     * são sempre iguais entre si.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return Leitura.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Leitura: lê e valida os dados digitados no teclado";
+    }
 }

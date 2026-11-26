@@ -73,8 +73,12 @@ public class Hotel implements Serializable {
         System.out.println(novoQuarto);
     }
 
-    // mostra todos os quartos com as suas reservas (ou "sem reservas")
-    public void listarQuartos() {
+    /**
+     * mostra todos os quartos com os períodos já reservados (ou "sem reservas").
+     * mostrarCodigos = true para funcionários; para clientes é false, assim um
+     * cliente não vê o código da reserva de outra pessoa
+     */
+    public void listarQuartos(boolean mostrarCodigos) {
 
         System.out.println("\n--- Lista de Quartos ---");
 
@@ -104,9 +108,11 @@ public class Hotel implements Serializable {
                     System.out.println("  Reservado de "
                             + reserva.getDataEntrada().format(formato)
                             + " até "
-                            + reserva.getDataSaida().format(formato) +
-                            "  |  Código da reserva: " + reserva.getCodigoReserva() +
-                            "\n--------------------------------------");
+                            + reserva.getDataSaida().format(formato)
+                            + (mostrarCodigos
+                                    ? "  |  Código da reserva: " + reserva.getCodigoReserva()
+                                    : "")
+                            + "\n--------------------------------------");
                 }
             }
 
@@ -190,6 +196,14 @@ public class Hotel implements Serializable {
 
         } while (codigoRepetido);
 
+        // mostra o valor a pagar e pede confirmação antes de reservar
+        System.out.println("\nValor a pagar: " + novaReserva.descreverValor());
+
+        if (!Leitura.lerBoolean("Confirmar reserva? (S/N): ")) {
+            System.out.println("Reserva não realizada.");
+            return;
+        }
+
         reservas.add(novaReserva);
 
         // salva em arquivo txt a reserva, já formatada
@@ -207,6 +221,7 @@ public class Hotel implements Serializable {
                 quartoEncontrado.getNumero() + "\n" +
                 "Data de entrada: " + entrada.format(formato) + "\n" +
                 "Data de saída: " + saida.format(formato) + "\n" +
+                "Valor a pagar: " + novaReserva.descreverValor() + "\n" +
                 "Reserva realizada em: " +
                 LocalDateTime.now().format(formatoDataHora) + "\n" +
                 "----------------------------------------";
@@ -216,6 +231,8 @@ public class Hotel implements Serializable {
         System.out.println("\nReserva realizada com sucesso!");
         System.out.println("==================================");
         System.out.println("CÓDIGO DA RESERVA: " + novaReserva.getCodigoReserva());
+        System.out.println("VALOR A PAGAR: R$ "
+                + String.format("%.2f", novaReserva.calcularValorTotal()));
         System.out.println("==================================");
     }
 
@@ -258,24 +275,32 @@ public class Hotel implements Serializable {
         }
     }
 
-    // Apaga uma reserva da lista através do código de reserva
-
+    /**
+     * Apaga uma reserva da lista. Pede o código da reserva e o CPF do cliente,
+     * e só cancela se o CPF for o mesmo usado na reserva. Assim ninguém consegue
+     * cancelar a reserva de outra pessoa só sabendo (ou adivinhando) o código.
+     */
     public void cancelarReserva() {
 
         System.out.println("\n--- Cancelar Reserva ---");
 
-        String codigoReserva = Leitura.lerString("Digite o código da reserva: ");
+        String codigoReserva = Leitura.lerString("Digite o código da reserva: ").trim();
+        String cpfCliente = Leitura.lerCPF("CPF do cliente: ");
 
         for (int i = 0; i < reservas.size(); i++) {
-            if (reservas.get(i).getCodigoReserva().equals(codigoReserva)) {
+
+            Reserva reserva = reservas.get(i);
+
+            if (reserva.getCodigoReserva().equals(codigoReserva)
+                    && reserva.getCpfCliente().equals(cpfCliente)) {
                 reservas.remove(i);
                 System.out.println("Reserva cancelada com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Reserva não encontrada!");
-
+        // a mesma mensagem nos dois casos, para não revelar se o código existe
+        System.out.println("Reserva não encontrada ou CPF não confere!");
     }
 
     // Uso obrigatório do equals e toString

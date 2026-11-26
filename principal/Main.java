@@ -96,7 +96,7 @@ public class Main {
                     Arquivo.salvarHotel(hotel);
                     break;
                 case 2:
-                    hotel.listarQuartos();
+                    hotel.listarQuartos(true);
                     break;
                 case 3:
                     hotel.consultarQuartos();
@@ -133,6 +133,7 @@ public class Main {
             System.out.println("======================");
             System.out.println("\n1 - Fazer reserva");
             System.out.println("2 - Cancelar reserva");
+            System.out.println("3 - Ver quartos disponíveis");
             System.out.println("9 - Voltar");
             System.out.println("0 - Sair");
 
@@ -147,6 +148,9 @@ public class Main {
                     hotel.cancelarReserva();
                     Arquivo.salvarHotel(hotel);
                     break;
+                case 3:
+                    hotel.listarQuartos(false);
+                    break;
                 case 9:
                     return true;
                 case 0:
@@ -155,5 +159,25 @@ public class Main {
                     System.out.println("\nOpção inválida. Tente novamente.\n");
             }
         }
+    }
+
+    /*
+     * equals e toString exigidos pelo trabalho (requisito 5). Esta classe só tem
+     * métodos estáticos e não guarda dados próprios, então dois objetos Main
+     * são sempre iguais entre si.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && getClass() == obj.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return Main.class.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Main: menu principal do sistema da Pousada do Sol e Mar";
     }
 }

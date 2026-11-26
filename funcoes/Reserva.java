@@ -3,13 +3,14 @@ package funcoes;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.Random;
 
 /**
  * Representa uma reserva: liga um quarto a um período (entrada e saída)
  * e ao CPF do cliente. O código de reserva de 6 dígitos é gerado
- * automaticamente.
+ * automaticamente. Também calcula o valor a pagar (diárias x valor da diária).
  */
 
 public class Reserva implements Serializable {
@@ -57,6 +58,23 @@ public class Reserva implements Serializable {
         return codigoReserva;
     }
 
+    // quantidade de diárias = número de noites entre a entrada e a saída
+    public long getQuantidadeDiarias() {
+        return ChronoUnit.DAYS.between(dataEntrada, dataSaida);
+    }
+
+    // valor a pagar = quantidade de diárias x valor da diária do quarto
+    public double calcularValorTotal() {
+        return getQuantidadeDiarias() * quarto.getValorDiaria();
+    }
+
+    // texto com o cálculo, ex.: "3 diária(s) x R$ 150,00 = R$ 450,00"
+    public String descreverValor() {
+        return getQuantidadeDiarias() + " diária(s) x R$ "
+                + String.format("%.2f", quarto.getValorDiaria())
+                + " = R$ " + String.format("%.2f", calcularValorTotal());
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -85,6 +103,7 @@ public class Reserva implements Serializable {
         return "Código da reserva: " + codigoReserva
                 + "\nCPF do cliente: " + cpfCliente
                 + "\nData de entrada: " + dataEntrada.format(formato)
-                + "\nData de saída: " + dataSaida.format(formato);
+                + "\nData de saída: " + dataSaida.format(formato)
+                + "\nValor a pagar: " + descreverValor();
     }
 }
