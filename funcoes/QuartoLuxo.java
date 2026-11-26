@@ -5,6 +5,10 @@ package funcoes;
  * tem uma jacuzzi. Herda número, capacidade e diária da classe Quarto.
  */
 public class QuartoLuxo extends Quarto {
+
+    // versão fixa: permite mudar a classe sem perder o hotel.dat já salvo
+    private static final long serialVersionUID = 7898645845265156009L;
+
     private int capacidadeJacuzzi;
 
     public QuartoLuxo(int numero, int capacidade, double valorDiaria, int capacidadeJacuzzi) {

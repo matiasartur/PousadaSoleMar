@@ -20,6 +20,22 @@ public class Leitura {
         return i;
     }
 
+    // LÊ UM TEXTO QUE NÃO PODE FICAR VAZIO (login, senha)
+    public static String lerTextoObrigatorio(String mensagem) {
+
+        while (true) {
+            System.out.print(mensagem);
+
+            String texto = scanner.nextLine().trim();
+
+            if (!texto.isEmpty()) {
+                return texto;
+            }
+
+            System.out.println("Este campo não pode ficar vazio!");
+        }
+    }
+
     // FORMATAÇÃO DATA
 
     public static LocalDate lerData(String mensagem) {

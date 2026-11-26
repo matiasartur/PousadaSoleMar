@@ -14,6 +14,9 @@ import java.util.Random;
 
 public class Reserva implements Serializable {
 
+    // versão fixa: permite mudar a classe sem perder o hotel.dat já salvo
+    private static final long serialVersionUID = 4372755768620249516L;
+
     private Quarto quarto;
     private LocalDate dataEntrada;
     private LocalDate dataSaida;

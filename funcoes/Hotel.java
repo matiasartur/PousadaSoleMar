@@ -17,6 +17,9 @@ import java.util.Objects;
 
 public class Hotel implements Serializable {
 
+    // versão fixa: permite mudar a classe sem perder o hotel.dat já salvo
+    private static final long serialVersionUID = 7503141381181878996L;
+
     private String nome;
     private List<Quarto> quartos;
     private List<Reserva> reservas;

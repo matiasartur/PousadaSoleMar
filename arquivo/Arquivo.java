@@ -10,12 +10,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import funcoes.Equipe;
 import funcoes.Hotel;
 
 /**
  * Cuida dos arquivos: salva e carrega o hotel inteiro em hotel.dat
- * (para recuperar os dados ao reabrir o programa) e grava o registro
- * de cada reserva em dados.txt.
+ * e os funcionários em funcionarios.dat (para recuperar os dados ao
+ * reabrir o programa) e grava o registro de cada reserva em reservas.txt.
  */
 
 public class Arquivo {
@@ -24,7 +25,7 @@ public class Arquivo {
     public static void salvar(String texto) {
 
         try {
-            FileWriter arquivo = new FileWriter("dados.txt", true);
+            FileWriter arquivo = new FileWriter("reservas.txt", true);
             BufferedWriter escritor = new BufferedWriter(arquivo);
 
             escritor.write(texto);
@@ -42,7 +43,7 @@ public class Arquivo {
     public static void ler() {
 
         try {
-            FileReader arquivo = new FileReader("dados.txt");
+            FileReader arquivo = new FileReader("reservas.txt");
             BufferedReader leitor = new BufferedReader(arquivo);
 
             String linha;
@@ -89,6 +90,40 @@ public class Arquivo {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Erro ao carregar os dados: " + e.getMessage());
             return new Hotel(nome);
+        }
+    }
+
+    // SALVA OS FUNCIONÁRIOS NO ARQUIVO funcionarios.dat
+    public static void salvarEquipe(Equipe equipe) {
+
+        try (ObjectOutputStream saida = new ObjectOutputStream(
+                new FileOutputStream("funcionarios.dat"))) {
+
+            saida.writeObject(equipe);
+
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar os funcionários: " + e.getMessage());
+        }
+    }
+
+    // CARREGA OS FUNCIONÁRIOS DO ARQUIVO. Se o arquivo não existir, cria uma
+    // equipe só com o ADMIN
+    public static Equipe carregarEquipe() {
+
+        File arquivo = new File("funcionarios.dat");
+
+        if (!arquivo.exists()) {
+            return new Equipe();
+        }
+
+        try (ObjectInputStream entrada = new ObjectInputStream(
+                new FileInputStream(arquivo))) {
+
+            return (Equipe) entrada.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar os funcionários: " + e.getMessage());
+            return new Equipe();
         }
     }
 }
