@@ -70,6 +70,9 @@ O sistema já vem com o funcionário padrão **ADMIN**, senha **123**.
 
 Todas as entradas são validadas pela classe `Leitura`. Se o usuário digitar um valor inválido, como texto em um campo numérico, uma data inexistente ou um campo vazio, a pergunta é repetida sem interromper o programa.
 
+- **Valores em dinheiro** (diária) aceitam apenas números como `150`, `150,5` ou `150,50`, com até 7 dígitos antes da vírgula e 2 casas decimais. Textos como `Infinity`, `NaN` ou `1e5`, que o Java normalmente aceitaria como números, são recusados.
+- **Fim da entrada:** se a entrada do teclado for encerrada (Ctrl+Z no Windows, Ctrl+D no Linux/Mac), o programa exibe uma mensagem e encerra normalmente, sem erro. Os dados já estão salvos, pois o sistema grava após cada alteração.
+
 ## Estrutura do projeto
 
 ```text

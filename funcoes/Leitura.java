@@ -14,10 +14,29 @@ import java.time.format.DateTimeParseException;
 
 public class Leitura {
 
+    private static Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Lê uma linha do teclado. Todos os outros métodos usam este.
+     * Se a entrada for encerrada (Ctrl+Z no Windows, Ctrl+D no Linux/Mac),
+     * não há mais o que ler: em vez de o programa quebrar com
+     * NoSuchElementException, ele avisa e encerra normalmente.
+     * Os dados já estão salvos, porque o sistema grava após cada alteração.
+     */
+    private static String lerLinha() {
+
+        if (!scanner.hasNextLine()) {
+            System.out.println("\n\nEntrada encerrada. Saindo do programa...");
+            System.exit(0);
+        }
+
+        return scanner.nextLine();
+    }
+
+    // LÊ UM TEXTO QUALQUER (pode ficar vazio)
     public static String lerString(String mensagem) {
         System.out.print(mensagem);
-        String i = scanner.nextLine();
-        return i;
+        return lerLinha();
     }
 
     // LÊ UM TEXTO QUE NÃO PODE FICAR VAZIO (login, senha)
@@ -26,7 +45,7 @@ public class Leitura {
         while (true) {
             System.out.print(mensagem);
 
-            String texto = scanner.nextLine().trim();
+            String texto = lerLinha().trim();
 
             if (!texto.isEmpty()) {
                 return texto;
@@ -47,7 +66,7 @@ public class Leitura {
             System.out.print(mensagem);
 
             try {
-                return LocalDate.parse(scanner.nextLine(), formato);
+                return LocalDate.parse(lerLinha().trim(), formato);
 
             } catch (DateTimeParseException e) {
                 System.out.println("Data inválida! Use o formato dd/MM/aaaa (ex: 25/12/2030).");
@@ -61,7 +80,7 @@ public class Leitura {
         while (true) {
             System.out.print(mensagem);
 
-            String cpf = scanner.nextLine().replaceAll("[^0-9]", "");
+            String cpf = lerLinha().replaceAll("[^0-9]", "");
 
             if (cpf.matches("\\d{11}")) {
                 return cpf;
@@ -72,16 +91,13 @@ public class Leitura {
     }
 
     // CONFERIR NUMERO DIGITADO PELO USUARIO
-
-    private static Scanner scanner = new Scanner(System.in);
-
     public static int lerInteiro(String mensagem, int minimo) {
 
         while (true) {
             System.out.print(mensagem);
 
             try {
-                int numero = Integer.parseInt(scanner.nextLine());
+                int numero = Integer.parseInt(lerLinha().trim());
 
                 if (numero >= minimo) {
                     return numero;
@@ -95,24 +111,32 @@ public class Leitura {
         }
     }
 
-    // CONFERIR VALOR DO QUARTO
+    /**
+     * CONFERIR VALOR DO QUARTO. Aceita só valores em dinheiro como 150, 150,5
+     * ou 150,50: até 7 dígitos antes da vírgula (máximo R$ 9.999.999,99) e até
+     * 2 casas decimais. O Double.parseDouble sozinho aceitaria textos como
+     * "Infinity", "NaN", "1e5", "10d" ou números com centenas de dígitos,
+     * por isso o formato é conferido antes da conversão.
+     */
     public static double lerDouble(String mensagem, double minimo) {
 
         while (true) {
             System.out.print(mensagem);
 
-            try {
-                double numero = Double.parseDouble(
-                        scanner.nextLine().replace(",", "."));
+            String texto = lerLinha().trim();
 
-                if (numero >= minimo) {
-                    return numero;
-                }
+            if (!texto.matches("\\d{1,7}([.,]\\d{1,2})?")) {
+                System.out.println("Digite um valor válido! (ex: 150 ou 150,50 - "
+                        + "até 7 dígitos e 2 casas decimais)");
+                continue;
+            }
 
+            double numero = Double.parseDouble(texto.replace(",", "."));
+
+            if (numero < minimo) {
                 System.out.println("Valor abaixo do mínimo permitido!");
-
-            } catch (NumberFormatException e) {
-                System.out.println("Digite um valor decimal válido!");
+            } else {
+                return numero;
             }
         }
     }
@@ -123,7 +147,7 @@ public class Leitura {
         while (true) {
             System.out.print(mensagem);
 
-            String resposta = scanner.nextLine().trim().toUpperCase();
+            String resposta = lerLinha().trim().toUpperCase();
 
             if (resposta.equals("S")) {
                 return true;
