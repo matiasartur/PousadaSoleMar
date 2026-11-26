@@ -16,7 +16,9 @@ import funcoes.Hotel;
 /**
  * Cuida dos arquivos: salva e carrega o hotel inteiro em hotel.dat
  * e os funcionários em funcionarios.dat (para recuperar os dados ao
- * reabrir o programa) e grava o registro de cada reserva em reservas.txt.
+ * reabrir o programa). Também grava arquivos de texto para leitura:
+ * reservas.txt (registro de reservas e cancelamentos), quartos.txt
+ * (quartos cadastrados) e funcionarios.txt (logins e senhas).
  */
 
 public class Arquivo {
@@ -36,6 +38,18 @@ public class Arquivo {
 
         } catch (IOException e) {
             System.out.println("Erro ao salvar: " + e.getMessage());
+        }
+    }
+
+    // REESCREVE O ARQUIVO TXT INTEIRO COM O TEXTO RECEBIDO (lista sempre atual)
+    public static void sobrescrever(String nomeArquivo, String texto) {
+
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nomeArquivo))) {
+
+            escritor.write(texto);
+
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar " + nomeArquivo + ": " + e.getMessage());
         }
     }
 
@@ -70,6 +84,9 @@ public class Arquivo {
         } catch (IOException e) {
             System.out.println("Erro ao salvar os dados: " + e.getMessage());
         }
+
+        // também grava a lista de quartos em texto, para leitura
+        sobrescrever("quartos.txt", hotel.gerarRelatorioQuartos());
     }
 
     // CARREGA O HOTEL DO ARQUIVO. Se o arquivo não existir (primeira vez), cria um
@@ -104,6 +121,9 @@ public class Arquivo {
         } catch (IOException e) {
             System.out.println("Erro ao salvar os funcionários: " + e.getMessage());
         }
+
+        // também grava os logins e senhas em texto, para leitura
+        sobrescrever("funcionarios.txt", equipe.gerarRelatorioFuncionarios());
     }
 
     // CARREGA OS FUNCIONÁRIOS DO ARQUIVO. Se o arquivo não existir, cria uma
@@ -144,6 +164,7 @@ public class Arquivo {
 
     @Override
     public String toString() {
-        return "Arquivo: salva e carrega hotel.dat, funcionarios.dat e reservas.txt";
+        return "Arquivo: salva e carrega hotel.dat e funcionarios.dat, "
+                + "e grava reservas.txt, quartos.txt e funcionarios.txt";
     }
 }

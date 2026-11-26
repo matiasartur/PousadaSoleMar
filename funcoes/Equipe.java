@@ -116,6 +116,26 @@ public class Equipe implements Serializable {
         System.out.println(novoFuncionario);
     }
 
+    // monta o texto do arquivo funcionarios.txt com o login e a senha de cada um
+    public String gerarRelatorioFuncionarios() {
+
+        StringBuilder texto = new StringBuilder();
+
+        texto.append("========================================\n")
+                .append("       POUSADA DO SOL E MAR\n")
+                .append("            FUNCIONÁRIOS\n")
+                .append("========================================\n")
+                .append("Total de funcionários: ").append(funcionarios.size()).append("\n\n");
+
+        for (Funcionario funcionario : funcionarios) {
+            texto.append("Login: ").append(funcionario.getLogin()).append("\n")
+                    .append("Senha: ").append(funcionario.getSenha()).append("\n")
+                    .append("----------------------------------------\n");
+        }
+
+        return texto.toString();
+    }
+
     // duas equipes são iguais se tiverem os mesmos funcionários
     @Override
     public boolean equals(Object obj) {

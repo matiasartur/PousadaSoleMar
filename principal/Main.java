@@ -26,6 +26,11 @@ public class Main {
         Hotel hotel = Arquivo.carregarHotel("Pousada do Sol e Mar");
         Equipe equipe = Arquivo.carregarEquipe();
 
+        // grava os arquivos logo ao abrir, para quartos.txt e funcionarios.txt
+        // sempre existirem e estarem em dia com os dados carregados
+        Arquivo.salvarHotel(hotel);
+        Arquivo.salvarEquipe(equipe);
+
         boolean executando = true;
 
         while (executando) {

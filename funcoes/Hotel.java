@@ -198,6 +198,9 @@ public class Hotel implements Serializable {
 
         // mostra o valor a pagar e pede confirmação antes de reservar
         System.out.println("\nValor a pagar: " + novaReserva.descreverValor());
+        System.out.println("Cancelamentos com menos de " + Reserva.HORAS_MINIMAS_CANCELAMENTO
+                + "h de antecedência do check-in (" + Reserva.HORA_CHECKIN
+                + "h do dia da entrada) pagam taxa de 1 diária.");
 
         if (!Leitura.lerBoolean("Confirmar reserva? (S/N): ")) {
             System.out.println("Reserva não realizada.");
@@ -293,14 +296,87 @@ public class Hotel implements Serializable {
 
             if (reserva.getCodigoReserva().equals(codigoReserva)
                     && reserva.getCpfCliente().equals(cpfCliente)) {
+
+                double taxa = reserva.calcularTaxaCancelamento();
+
+                // com menos de 48h de antecedência há taxa: avisa e pede confirmação
+                if (taxa > 0) {
+                    System.out.println("\nAtenção: faltam menos de "
+                            + Reserva.HORAS_MINIMAS_CANCELAMENTO
+                            + "h para o check-in (" + Reserva.HORA_CHECKIN + "h do dia da entrada).");
+                    System.out.println("Taxa de cancelamento (1 diária): R$ "
+                            + String.format("%.2f", taxa));
+
+                    if (!Leitura.lerBoolean("Deseja cancelar mesmo assim? (S/N): ")) {
+                        System.out.println("A reserva foi mantida.");
+                        return;
+                    }
+                }
+
                 reservas.remove(i);
+
+                DateTimeFormatter formatoDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+                Arquivo.salvar("========================================\n" +
+                        "       POUSADA DO SOL E MAR\n" +
+                        "        CANCELAMENTO DE RESERVA\n" +
+                        "========================================\n\n" +
+                        "CPF do cliente: " + cpfCliente + "\n" +
+                        "Código da reserva: " + codigoReserva + "\n" +
+                        "Valor da reserva cancelada: " + reserva.descreverValor() + "\n" +
+                        "Taxa de cancelamento: R$ " + String.format("%.2f", taxa) + "\n" +
+                        "Cancelada em: " + LocalDateTime.now().format(formatoDataHora) + "\n" +
+                        "----------------------------------------");
+
                 System.out.println("Reserva cancelada com sucesso!");
+
+                if (taxa > 0) {
+                    System.out.println("Taxa de cancelamento a pagar: R$ "
+                            + String.format("%.2f", taxa));
+                } else {
+                    System.out.println("Cancelamento sem taxa.");
+                }
                 return;
             }
         }
 
         // a mesma mensagem nos dois casos, para não revelar se o código existe
         System.out.println("Reserva não encontrada ou CPF não confere!");
+    }
+
+    // monta o texto do arquivo quartos.txt com todos os quartos cadastrados
+    public String gerarRelatorioQuartos() {
+
+        DateTimeFormatter formatoDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        StringBuilder texto = new StringBuilder();
+
+        texto.append("========================================\n")
+                .append("       POUSADA DO SOL E MAR\n")
+                .append("         QUARTOS CADASTRADOS\n")
+                .append("========================================\n")
+                .append("Atualizado em: ")
+                .append(LocalDateTime.now().format(formatoDataHora))
+                .append("\nTotal de quartos: ").append(quartos.size()).append("\n\n");
+
+        for (Quarto quarto : quartos) {
+
+            texto.append(quarto instanceof QuartoLuxo ? "Tipo: Luxo\n" : "Tipo: Comum\n")
+                    .append("Número: ").append(quarto.getNumero()).append("\n")
+                    .append("Capacidade: ").append(quarto.getCapacidade()).append(" pessoas\n");
+
+            if (quarto instanceof QuartoLuxo) {
+                texto.append("Capacidade da jacuzzi: ")
+                        .append(((QuartoLuxo) quarto).getCapacidadeJacuzzi())
+                        .append(" pessoas\n");
+            }
+
+            texto.append("Valor da diária: R$ ")
+                    .append(String.format("%.2f", quarto.getValorDiaria()))
+                    .append("\n----------------------------------------\n");
+        }
+
+        return texto.toString();
     }
 
     // Uso obrigatório do equals e toString
